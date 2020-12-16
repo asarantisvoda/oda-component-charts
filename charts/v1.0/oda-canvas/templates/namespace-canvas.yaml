@@ -1,0 +1,6 @@
+{{- if .Values.namespaceCanvas.create -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{.Release.Name}}-canvas
+{{- end }}

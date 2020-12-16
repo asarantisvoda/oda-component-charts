@@ -1,0 +1,10 @@
+# Values for canvas
+
+rbac:
+  enabled: true
+
+namespaceCanvas:
+  create: false
+
+namespaceDefault:
+  create: false
