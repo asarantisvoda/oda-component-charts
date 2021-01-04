@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-tmf
+  labels:
+    oda.tmforum.org/componentName: vodafone-productcatalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-tmf
+  template:
+    metadata:
+      labels:
+        app: mongo-tmf
+    spec:
+      containers:
+      - name: mongo-tmf
+        image: mongo:latest
+        ports:
+        - name: mongo-tmf
+          containerPort: 27017
+        volumeMounts:
+        - name: mongo-tmf-pv-storage
+          mountPath: "/data/db"
+      volumes:
+      - name: mongo-tmf-pv-storage
+        persistentVolumeClaim:
+          claimName: mongo-tmf-pv-claim

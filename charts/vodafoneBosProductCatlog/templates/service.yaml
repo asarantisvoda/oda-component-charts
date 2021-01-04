@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vodafoneBosProductCatlog.fullname" . }}
+  labels:
+    {{- include "vodafoneBosProductCatlog.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "vodafoneBosProductCatlog.selectorLabels" . | nindent 4 }}
