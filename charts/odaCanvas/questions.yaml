@@ -1,4 +1,4 @@
 labels:
-  io.rancher.certified: oda-ca founder
+  io.rancher.certified: candidate
   io.cattle.role: cluster # options are cluster/project
 rancher_min_version: 2.3.0
