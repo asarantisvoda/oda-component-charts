@@ -1,0 +1,10 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{.Release.Name}}-mongo
+spec:
+  accessModes:
+  - {{.Values.pvclaim.accessModes}}
+  resources:
+    requests:
+      storage: {{.Values.pvclaim.capacity}}

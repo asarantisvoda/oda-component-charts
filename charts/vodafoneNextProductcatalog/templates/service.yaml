@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "vodafoneNextProductcatalog.fullname" . }}
+  name: {{.Release.Name}}-{{.Values.component.type}}
   labels:
-    {{- include "vodafoneNextProductcatalog.labels" . | nindent 4 }}
+    app: {{.Release.Name}}-{{.Values.component.type}}
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.type}}
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  - port: {{.Values.ports.serviceport}}
+    targetPort: {{.Values.ports.containerport}}
+  type: {{.Values.service.type}}
   selector:
-    {{- include "vodafoneNextProductcatalog.selectorLabels" . | nindent 4 }}
+    app: {{.Release.Name}}-{{.Values.component.type}}

@@ -1,0 +1,40 @@
+apiVersion: oda.tmforum.org/v1alpha1
+kind: component
+metadata:
+  name: {{.Release.Name}}-{{.Values.component.type}}
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.type}}
+spec:
+  type: ocs
+  selector:
+    matchLabels:
+     oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.type}}
+  componentKinds:
+    - group: core
+      kind: Service
+    - group: apps
+      kind: Deployment  
+  version: "0.0.1"
+  description: "Vodafone-{{.Release.Name}} implementation of TM Forum Product Catalog Component." 
+  maintainers:
+    - name: {{.Values.people.maintainer.name}}
+      email: {{.Values.people.maintainer.email}}
+  owners:
+    - name: {{.Values.people.owner.name}}
+      email: {{.Values.people.owner.email}}     
+  coreFunction:
+    exposedAPIs: 
+    - name: {{.Values.component.type}}
+      specification: https://open-api.tmforum.org/TMF620-productcatalog-v4.0.0.swagger.json
+      implementation: {{.Release.Name}}-{{.Values.component.type}}
+      path: /catalogManagement
+      developerUI: /catalogManagement/swagger-ui.html
+      port: {{.Values.ports.serviceport}}
+      hostname: {{.Values.hostname}}
+    dependantAPIs: []
+  eventNotification:
+    publishedEvents: []
+    subscribedEvents: []
+  management: []
+  security:
+    securitySchemes: []

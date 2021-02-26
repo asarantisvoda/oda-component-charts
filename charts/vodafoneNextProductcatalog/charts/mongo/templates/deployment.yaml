@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-mongo
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.type}}
+    app: {{.Release.Name}}-mongo
+spec:
+  replicas: {{.Values.deployment.replicaCount}}
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-mongo
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}-mongo
+    spec:
+      containers:
+      - name: {{.Release.Name}}-mongo
+        image: {{.Values.deployment.image}}
+        ports:
+        - containerPort: {{.Values.port.containerport}}
+        volumeMounts:
+        - name: {{.Release.Name}}-mongo
+          mountPath: "/data/db"
+      volumes:
+      - name: {{.Release.Name}}-mongo
+        persistentVolumeClaim:
+          claimName: {{.Release.Name}}-mongo
