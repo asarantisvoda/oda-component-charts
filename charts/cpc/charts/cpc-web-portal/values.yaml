@@ -1,0 +1,114 @@
+# Default values for cpc-web-portal.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: 10.45.80.1/dbep/ngportal_web_product_r92
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: M_20210323101158
+
+fullnameOverride: cpc-web-portal
+
+ports:
+  - containerPort: 8080
+    protocol: TCP
+    name: http
+
+envFrom:
+  - configMapRef:
+     name: global-config
+
+volumeMounts:
+  - mountPath: /nfsdata/export_dir
+    name: volume-0
+  - mountPath: /nfsdata/upload_dir
+    name: volume-0
+  - mountPath: /nfsdata/print_dir/
+    name: volume-0
+  - mountPath: /crm/crm/api/pos/dmsupload
+    name: volume-0
+  - mountPath: /tmp/zcore
+    name: volume-2
+  - mountPath: /tmp/zlogs
+    name: volume-3
+  - name: cpc-web-portal
+    mountPath: /root/ZSMART_HOME/etc/mq.properties
+    subPath: mq.properties
+    readOnly: True
+  - name: cpc-web-portal
+    mountPath: /root/ZSMART_HOME/etc/portalConfig.properties
+    subPath: portalConfig.properties
+    readOnly: True
+  - name: cpc-web-portal
+    mountPath: /root/ZSMART_HOME/etc/coreConfig.properties
+    subPath: coreConfig.properties
+    readOnly: True
+  - name: cpc-web-portal
+    mountPath: /root/ZSMART_HOME/etc/logback-test.xml
+    subPath: logback-test.xml
+    readOnly: True
+  - name: cpc-web-portal
+    mountPath: /root/ZSMART_HOME/etc/logback-prod.xml
+    subPath: logback-prod.xml
+    readOnly: True
+  - mountPath: /etc/localtime
+    name: zcmlocaltime
+  - mountPath: /etc/timezone
+    name: zcmtimezone
+
+service:
+  type: ClusterIP
+  port: 8080
+  typeouter: NodePort
+  nodePort: 32000
+
+dnsPolicy: ClusterFirst
+restartPolicy: Always
+
+volumes:
+  - hostPath:
+      path: /tmp/zcore
+      type: ""
+    name: volume-2
+  - hostPath:
+      path: /tmp/zlogs
+      type: ""
+    name: volume-3
+  - hostPath:
+      path: /etc/localtime
+      type: ""
+    name: zcmlocaltime
+  - hostPath:
+      path: /etc/timezone
+      type: ""
+    name: zcmtimezone
+
+cm:
+  - name: cpc-web-portal
+    configMap:
+      name: cpc-web-portal
+
+pvc:
+  - name: volume-0
+    persistentVolumeClaim:
+      claimName: scd-crmcoc
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite  /portal-web/(.*)$   /portal/$1 break;
+  path: /portal-web
+
+resources:
+  limits:
+    cpu: "4"
+    memory: 4Gi
+  requests:
+    cpu: "1"
+    memory: 1Gi
+
+clusterIP: None

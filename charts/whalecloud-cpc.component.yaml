@@ -1,0 +1,57 @@
+apiVersion: oda.tmforum.org/v1alpha2
+kind: component
+metadata:
+  name: whalecloud-cpc-productcatalog
+  labels:
+    oda.tmforum.org/componentName: whalecloud-cpc-productcatalog
+spec:
+  type: productcatalog
+  selector:
+    matchLabels:
+      oda.tmforum.org/componentName: whalecloud-cpc-productcatalog
+  componentKinds:
+    - group: core
+      kind: Service
+    - group: apps
+      kind: Deployment
+  version: "0.0.1"
+  description: "Whalecloud simple reference implementation of ODA Product Catalog."
+  maintainers:
+    - name: Zhao Yongfang
+      email: zhao.yongfang@iwhalecloud.com
+  owners:
+    - name: Zhao Yongfang
+      email: zhao.yongfang@iwhalecloud.com
+  coreFunction:
+    exposedAPIs:
+      - name: ProductCatalog
+        specification: https://open-api.tmforum.org/whalecloud-cpc-productcatalog.swagger.json
+        implementation: cpc-service-product
+        path: /cpc/tmf-api/productCatalogManagement/v4
+        port: 8080
+    dependantAPIs:
+      - name: party
+        specification: https://open-api.tmforum.org/whalecloud-cpc-productcatalog.swagger.json
+  eventNotification:
+    publishedEvents:
+      - name: Catalog
+        href: https://schema.tmforum.org/Product/Catalog.schema.json
+    subscribedEvents:
+      - name: ImportJob
+        href: https://schema.tmforum.org/Product/ImportJob.schema.json
+  management:
+    - name: serviceTest
+      href: https://manager.local/healthCheck
+      specification: https://open-api.tmforum.org/TMF653-ServiceTest-v4.0.0.swagger.json
+  security:
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    partyrole:
+      specification: https://raw.githubusercontent.com/tmforum-apis/TMF669_PartyRole/master/TMF669-PartyRole-v4.0.0.swagger.json
+      implementation: r1-partyroleapi
+      path: /portal-web/tmf-api/partyRoleManagement/v4
+      developerUI: /portal-web/tmf-api/partyRoleManagement/v4/docs
+      port: 8080

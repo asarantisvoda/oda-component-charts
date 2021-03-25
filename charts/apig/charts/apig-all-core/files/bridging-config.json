@@ -1,0 +1,48 @@
+{
+    "bridgingMethods": {
+        "method1": {
+            "methodRoutingService": {
+                "serviceConfig": "GLOBAL_REGISTRY#com.ztesoft.zsmart.cg.RoutingService#routingMethod#routingParamClass",
+                "bridgingResult": "enumeration values"
+            },
+            "methodRoutingParamMapping": {
+                "accNbr": "msisdn",
+                "certTypeId": null,
+                "certNbr": null,
+                "acctNbr": null,
+                "spId": null
+            },
+            "bridgingByChannelProp": "false",
+            "channelServiceMapping": {
+                "DEFAULT": "GLOBAL_REGISTRY#com.ztesoft.zsmart.cg.TestService#testMethod#requestParamClass"
+            }
+        },
+        "method2": {
+            "methodRoutingParamMapping": {
+                "accNbr": "accNbr",
+                "certTypeId": "certTypeId",
+                "certNbr": null,
+                "acctNbr": null,
+                "spId": null
+            },
+            "bridgingByChannelProp": "true",
+            "channelServiceMapping": {
+                "Fintech": "GLOBAL_REGISTRY#com.ztesoft.zsmart.cg.TestService#testMethod#requestParamClass",
+                "USSD": "GLOBAL_REGISTRY#com.ztesoft.zsmart.cg.TestService2#testMethod2#requestParamClass"
+            }
+        },
+        "webserviceMethod": {
+            "methodRoutingParamMapping": {
+                "accNbr": null,
+                "certTypeId": "/path1/path2/path3/path4/path5/path6",
+                "certNbr": "/path1/path2/path3/path4/path5",
+                "acctNbr": null,
+                "spId": null
+            },
+            "isWebServiceTransparent": "true",
+            "channelServiceMapping": {
+                "DEFAULT": "requestMethod#url"
+            }
+        }
+    }
+}

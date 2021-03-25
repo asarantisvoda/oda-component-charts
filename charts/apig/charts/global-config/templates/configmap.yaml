@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "global-config.fullname" . }}
+data:
+  FTF_ZCM_ZMQ_ENABLED: "true"
+  FTF_ZCM_ZMQ_NAMESRV_ADDR: "10.45.61.25:9876;10.45.61.27:9876"
+  FTF_ZCM_ZMQ_PRODUCER_ID: "zcm-zmq"
+  FTF_MANAGEMENT_SECURITY_ALLOW: "127.0.0.1,10.45.80.26"
+  PROJECT_CODE: "002"
+  LOG_LEVEL_PROFILE: "test"
+  PAAS_ENV_TYPE: "test"
+  PAAS_PLATFORM: "zpaas"
+  SYSTEM_SERVICE: "172.16.24.176:80"
+  ZCM_ENV_TARIFF_PLAN_URL: "http://172.16.24.176/portal-web"
+  CHARGING_INTERNAL_TEST_FLAG: "Y"
+  ZMQ_NAMESPACE: "oracletest"
+  MQ_CPP_NAMESPACE: "oracletest"
